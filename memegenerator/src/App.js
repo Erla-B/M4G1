@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from "react";
-import { Meme } from "./components/Meme";
+import { Meme } from "./components/Meme"; // This is the meme component that I pass in below
 
-const objectToQueryParam = (obj) => {
-  const params = Object.entries(obj).map(([key, value]) => `${key}=${value}`);
-  return '?' + params.join("&");
-};
-
-
-
+// My variables
 function App() {
   const [templates, setTemplates] = useState([]);
   const [template, setTemplate] = useState(null);
@@ -15,17 +9,18 @@ function App() {
   const [bottomText, setBottomText] = useState("");
   const [meme, setMeme] = useState(null);
 
-  // Fetching the data from the API
+  // Fetching the data for the memes from the API
   useEffect(() => {
     fetch("https://api.imgflip.com/get_memes").then(x => 
     x.json().then(response => setTemplates(response.data.memes))
     );
   }, []);
 
+  // For the custom meme
   if (meme) {
     return (
     <div style={{ textAlign: "center" }}>
-      <img style={{ width: 200 }} src={meme} alt="Custom Meme" />
+      <img style={{ width: 400 }} src={meme} alt="Custom Meme" />
     </div>
     );
   }
@@ -34,28 +29,26 @@ function App() {
   return (
     <div style={{ textAlign: "center" }}>
       {template && (
-        <form 
+        <form  // The text is added via a submission form
           onSubmit={async e => {
+            console.log("here")
             e.preventDefault() // Prevent refresh
-            // Add logic to create meme from API
-            const params = {
-              template_id: template.id,
-              text0: topText,
-              text1: bottomText,
-              username: "Kisid",
-              password: "-MCe%x468e+_*JW"
-            };
-          const response = await fetch(
-            `https://api.imgflip.com/caption_image${objectToQueryParam(
-              params
-            )}`
-          );
-          const json = await response.json();
-          setMeme(json.data.url);
-        }}
-      >
-          <Meme template={template} />
-          <input 
+           
+            // Fetching the meme with custom text – pass in the variables for the template, top text and bottom text
+          const response = fetch(`
+            https://api.imgflip.com/caption_image?template_id=${template.id}&username=Kisid&password=Raymundur6&text0=${topText}&text1=${bottomText}`
+			    , {
+          method: 'POST',
+          })
+          .then((response) => response.json())
+          .then((row) => {
+            setMeme(row.data.url); 
+          });
+          }}    
+          >
+          
+          <Meme template={template} /> 
+          <input  // The inputs for the text, uses variables to set that text on submit
             placeholder="top text"
             value={topText}
             onChange={e => setTopText(e.target.value)} 
@@ -68,9 +61,10 @@ function App() {
           <button type="submit">Create Meme</button>
         </form>
       )}
-      {!template && (
+      
+      {!template && ( // This maps the templates and sends you to the meme's page if you click on it
         <>
-        <h1>Pick a Meme!</h1>
+        <h1>PICK A MEME!</h1>
         {templates.map(template => {
           return (
             <Meme
