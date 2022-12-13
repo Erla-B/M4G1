@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Erla-B/M4G1/static/css/main.a22e577f.css",
+    "main.js": "/Erla-B/M4G1/static/js/main.579f78b7.js",
+    "static/js/787.da67c08e.chunk.js": "/Erla-B/M4G1/static/js/787.da67c08e.chunk.js",
+    "index.html": "/Erla-B/M4G1/index.html",
+    "main.a22e577f.css.map": "/Erla-B/M4G1/static/css/main.a22e577f.css.map",
+    "main.579f78b7.js.map": "/Erla-B/M4G1/static/js/main.579f78b7.js.map",
+    "787.da67c08e.chunk.js.map": "/Erla-B/M4G1/static/js/787.da67c08e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a22e577f.css",
+    "static/js/main.579f78b7.js"
+  ]
+}
